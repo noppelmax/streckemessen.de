@@ -312,7 +312,9 @@
             view.setZoom(Number(data.zoom));
         }
         
-
+        /* Go to default view */
+        map.getView().setCenter(ol.proj.fromLonLat("8.401285,48.999550".split(',').map(Number)));
+        map.getView().setZoom(Number(12));
 
         addInteraction();
 
