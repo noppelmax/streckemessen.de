@@ -81,9 +81,8 @@
 
         var source = new ol.source.Vector();
 
-        var vector = new ol.layer.Vector({
-            source: source,
-            style: new ol.style.Style({
+        var styleFinished = [
+            new ol.style.Style({
                 fill: new ol.style.Fill({
                     color: 'rgba(255, 255, 255, 0)'
                 }),
@@ -97,7 +96,25 @@
                         color: '#0267fd'
                     })
                 })
+            }),
+            new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: 'orange'
+                    })
+                }),
+                geometry: function (feature) {
+                    // return the coordinates of the first ring of the polygon
+                    var coordinates = feature.getGeometry().getCoordinates();
+                    return new ol.geom.MultiPoint(coordinates);
+                }
             })
+        ];
+
+        var vector = new ol.layer.Vector({
+            source: source,
+            style: styleFinished
         });
 
 
@@ -137,13 +154,6 @@
 
 
         /**
-         * Message to show when the user is drawing a polygon.
-         * @type {string}
-         */
-        var continuePolygonMsg = 'Click to continue drawing the polygon';
-
-
-        /**
          * Message to show when the user is drawing a line.
          * @type {string}
          */
@@ -162,12 +172,7 @@
             var helpMsg = 'Click to start drawing';
 
             if (sketch) {
-                var geom = (sketch.getGeometry());
-                if (geom instanceof ol.geom.Polygon) {
-                    helpMsg = continuePolygonMsg;
-                } else if (geom instanceof ol.geom.LineString) {
-                    helpMsg = continueLineMsg;
-                }
+                helpMsg = continueLineMsg;
             }
 
             helpTooltipElement.innerHTML = helpMsg;
@@ -213,32 +218,48 @@
             return output;
         };
 
-        
+
+        var styleDrawing = [
+            new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#0267fd',
+                    lineDash: [10, 10],
+                    width: 3
+                }),
+                image: new ol.style.Circle({
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        color: '#0267fd'
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    })
+                })
+            }),
+            new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: 'orange'
+                    })
+                }),
+                geometry: function (feature) {
+                    // return the coordinates of the first ring of the polygon
+                    var coordinates = feature.getGeometry().getCoordinates();
+                    return new ol.geom.MultiPoint(coordinates);
+                }
+            })
+        ];
+
         function addInteraction() {
             var type = 'LineString';
             draw = new ol.interaction.Draw({
                 source: source,
                 type: type,
-                style:
-                    new ol.style.Style({
-                        fill: new ol.style.Fill({
-                            color: 'rgba(255, 255, 255, 0.2)'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: '#0267fd',
-                            lineDash: [10, 10],
-                            width: 3
-                        }),
-                        image: new ol.style.Circle({
-                            radius: 5,
-                            stroke: new ol.style.Stroke({
-                                color: '#0267fd'
-                            }),
-                            fill: new ol.style.Fill({
-                                color: 'rgba(255, 255, 255, 0.2)'
-                            })
-                        })
-                    })
+                style: styleDrawing
             });
             map.addInteraction(draw);
 
