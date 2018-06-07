@@ -45,21 +45,35 @@
         .tooltip-static:before {
             border-top-color: #0267fd;
         }
+
+        #map {
+            width: 100%;
+            height: 400px;
+        }
     </style>
 </head>
 
 <body>
     <h1>Laufstrecke messen</h1>
-    <p><a href="index.html">Download GPX Track (Not implemented yet)</a></p>
+    <p>
+        <a href="index.html">Download GPX Track (Not implemented yet)</a>,
+        <a href="index.html">new path (not implemented yet)</a>,
+        <input type="checkbox">Roundtrip (not implemented yet)</input>
+    </p>
     <p>Wichtige Städte:
         <a class="location" data-center="13.406485,52.518444" data-zoom="12">Berlin</a>,
         <a class="location" data-center="10.004692,53.540295" data-zoom="12">Hamburg</a>,
         <a class="location" data-center="11.554186,48.143373" data-zoom="12">München</a>, or
         <a class="location" data-center="8.401285,48.999550" data-zoom="13">Karlsruhe</a>
-        <input type="text"></input><button>Search</button>
+        <input type="text"></input>
+        <button>Search</button>
     </p>
     <div id="map" class="map"></div>
-    <p><a href="Impressum.html">Impressum</a> | Kartendaten: © <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: © <a href="https://opentopomap.org/">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)</p>
+    <p>
+        <a href="Impressum.html">Impressum</a> | Kartendaten: ©
+        <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
+        <a href="https://opentopomap.org/">OpenTopoMap</a> (
+        <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)</p>
     <script>
         var raster = new ol.layer.Tile({
             source: new ol.source.OSM()
@@ -199,31 +213,32 @@
             return output;
         };
 
-
+        
         function addInteraction() {
             var type = 'LineString';
             draw = new ol.interaction.Draw({
                 source: source,
                 type: type,
-                style: new ol.style.Style({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.2)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: '#0267fd',
-                        lineDash: [10, 10],
-                        width: 3
-                    }),
-                    image: new ol.style.Circle({
-                        radius: 5,
-                        stroke: new ol.style.Stroke({
-                            color: '#0267fd'
-                        }),
+                style:
+                    new ol.style.Style({
                         fill: new ol.style.Fill({
                             color: 'rgba(255, 255, 255, 0.2)'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: '#0267fd',
+                            lineDash: [10, 10],
+                            width: 3
+                        }),
+                        image: new ol.style.Circle({
+                            radius: 5,
+                            stroke: new ol.style.Stroke({
+                                color: '#0267fd'
+                            }),
+                            fill: new ol.style.Fill({
+                                color: 'rgba(255, 255, 255, 0.2)'
+                            })
                         })
                     })
-                })
             });
             map.addInteraction(draw);
 
@@ -259,6 +274,10 @@
                     measureTooltipElement = null;
                     createMeasureTooltip();
                     ol.Observable.unByKey(listener);
+
+                    /* Disable drawing more than one LineString */
+                    map.removeInteraction(draw);
+                    helpTooltipElement.remove();
                 }, this);
         }
 
@@ -271,7 +290,7 @@
                 helpTooltipElement.parentNode.removeChild(helpTooltipElement);
             }
             helpTooltipElement = document.createElement('div');
-            helpTooltipElement.className = 'tooltip hidden';
+            helpTooltipElement.className = 'tooltip tooltip-help hidden';
             helpTooltip = new ol.Overlay({
                 element: helpTooltipElement,
                 offset: [15, 0],
@@ -303,7 +322,7 @@
             locations[i].addEventListener('click', relocate);
         }
 
-        
+
 
         function relocate(event) {
             var data = event.target.dataset;
@@ -311,10 +330,10 @@
             view.setCenter(ol.proj.fromLonLat(data.center.split(',').map(Number)));
             view.setZoom(Number(data.zoom));
         }
-        
+
         /* Go to default view */
         map.getView().setCenter(ol.proj.fromLonLat("8.401285,48.999550".split(',').map(Number)));
-        map.getView().setZoom(Number(12));
+        map.getView().setZoom(Number(13));
 
         addInteraction();
 
