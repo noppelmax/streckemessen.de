@@ -72,3 +72,22 @@ form {
     width: 100%;
     text-align: center;
 }
+
+#impressum, #issues {
+    width: 80%;
+    text-align: left;
+    margin: auto;
+}
+
+.todo {
+    color:blue;
+}
+
+.bug {
+    color: white;
+    background-color: red;
+}
+
+.enhancement {
+    color: green;
+}

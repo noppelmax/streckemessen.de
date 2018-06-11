@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>streckemessen.de</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="vendor/bootstrap-4.1.1-dist/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol-debug.js"></script>
+    <script src="vendor/bootstrap-4.1.1-dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/script.js"></script>
+
+
+</head>
+
+<body>
+    <div id="header">
+        <h1>streckemessen.de</h1>
+    </div>
+
+    <div id='issues'>
+        <h2>Known Issues / Changes</h2>
+        <h3>v0.1.1-alpha</h3>
+        <ul>
+            <li class="todo">TODO-001: Track änderbar während des Anlegens</li>
+            <li class="todo">TODO-002: Streckenangabe zentral am Strich, nicht nur am Ende</li>
+            <li class="todo">TODO-003: Layout so, dass Footer ganz unten steht und die Karte nur bis dort geht</li>
+            <li class="todo">TODO-004: Suche auch über Enter auslösen</li>
+            <li class="todo">TODO-005: On-The-Fly Suchergebnisse anzeigen (anderer Anbieter, rechtlich nicht möglich aktuell)</li>
+            <li class="todo">TODO-006: Link um den Track neu zu beginnen</li>
+            <li class="todo">TODO-007: Zoomlevel beim Suchen sinnvoll einstellen je nach Suchgröße</li>
+            <li class="todo">TODO-008: Datenschutzerklärung hinzufügen</li>
+        </ul>
+    </div>
+
+
+    <div id="footer">
+        MIT Licence 2018, Maximilian Noppel | Version
+        <span id="version">loading</span> | 
+        <a href="issues.html">issues</a> |
+        <a href="impressum.html">Impressum</a> | Kartendaten: ©
+        <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
+        <a href="https://opentopomap.org/">OpenTopoMap</a> (
+        <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)
+    </div>
+
+    <script>
+        loadVersion();
+    </script>
+
+</body>
+
+</html>
