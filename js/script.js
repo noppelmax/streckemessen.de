@@ -13,7 +13,7 @@ function loadVersion(){
             }
         },
         success: function (json) {
-            var version = "v" + json.major + "." + json.minor + "." + json.patch + " " + json.release;
+            var version = "v" + json.major + "." + json.minor + "." + json.patch + "-" + json.release;
             console.log("Version", version);
             $('#version').text(version);
         }
