@@ -5,76 +5,72 @@
     <title>Laufstrecke.one</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="vendor/bootstrap-4.1.1-dist/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.6.5/build/ol-debug.js"></script>
-    <style>
-        .tooltip {
-            position: relative;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            color: white;
-            padding: 4px 8px;
-            opacity: 1;
-            white-space: nowrap;
-        }
+    <script src="vendor/bootstrap-4.1.1-dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-        .tooltip-measure {
-            opacity: 1;
-            font-weight: bold;
-        }
 
-        .tooltip-static {
-            background-color: #2d81ff;
-            color: black;
-            border: 1px solid white;
-        }
-
-        .tooltip-measure:before,
-        .tooltip-static:before {
-            border-top: 6px solid rgba(0, 0, 0, 0.5);
-            border-right: 6px solid transparent;
-            border-left: 6px solid transparent;
-            content: "";
-            position: absolute;
-            bottom: -6px;
-            margin-left: -7px;
-            left: 50%;
-        }
-
-        .tooltip-static:before {
-            border-top-color: #0267fd;
-        }
-
-        #map {
-            width: 100%;
-            height: 400px;
-        }
-    </style>
 </head>
 
 <body>
-    <h1>Laufstrecke messen</h1>
-    <p>
-        <a href="index.html">Download GPX Track (Not implemented yet)</a>,
-        <a href="index.html">new path (not implemented yet)</a>,
-        <input type="checkbox">Roundtrip (not implemented yet)</input>
-    </p>
-    <p>Wichtige Städte:
-        <a class="location" data-center="13.406485,52.518444" data-zoom="12">Berlin</a>,
-        <a class="location" data-center="10.004692,53.540295" data-zoom="12">Hamburg</a>,
-        <a class="location" data-center="11.554186,48.143373" data-zoom="12">München</a>, or
-        <a class="location" data-center="8.401285,48.999550" data-zoom="13">Karlsruhe</a>
-        <input type="text"></input>
-        <button>Search</button>
-    </p>
+    <div id="menu">
+        <!--p>
+            <a href="index.html">Download GPX Track (Not implemented yet)</a>,
+            <a href="index.html">new path (not implemented yet)</a>,
+            <input type="checkbox">Roundtrip (not implemented yet)</input>
+        </p-->
+        <p>
+            <div id="infoalert" class="alert alert-info" role="alert">
+                Beende deinen Track und selektiere ihn um in den Bearbeitenmodus überzugehen.
+            </div>
+
+        </p>
+        <h1>streckemessen.de</h1>
+        <p>
+            <button class="location btn btn-secondary" data-center="13.406485,52.518444" data-zoom="12">Berlin</button>
+            <button class="location btn btn-secondary" data-center="10.004692,53.540295" data-zoom="12">Hamburg</button>
+            <button class="location btn btn-secondary" data-center="11.554186,48.143373" data-zoom="12">München</button>
+            <button class="location btn btn-secondary" data-center="8.401285,48.999550" data-zoom="12">Karlsruhe</button>
+            <!--form id="searchForm" style="display: inline;"-->
+            <input type="text" id="searchText" onenter="search()" aria-describedby="searchtext" placeholder="Berlin"></input>
+            <button type="button" class="btn btn-primary" onclick="search()">Search</button>
+            <!--/form-->
+        </p>
+    </div>
     <div id="map" class="map"></div>
-    <p>
-        <a href="Impressum.html">Impressum</a> | Kartendaten: ©
+    <div id="footer">
+        MIT Licence 2018, Maximilian Noppel |
+        <a href="impressum.html">Impressum</a> | Kartendaten: ©
         <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
         <a href="https://opentopomap.org/">OpenTopoMap</a> (
-        <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)</p>
+        <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)
+    </div>
     <script>
+        //$('#searchForm').on("submit", function (e) {
+        //    console.log("Submitted");
+        //    e.preventDefault();
+        //    search();
+        //});
+
+        function search() {
+            searchText = document.getElementById("searchText").value;
+            console.log("searching for: ", searchText);
+
+            $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&limit=1", function (json) {
+                var txt = "" + json[0].lon + "," + json[0].lat + "";
+                console.log(txt);
+                map.getView().setCenter(ol.proj.fromLonLat("" + json[0].lat + "," + json[0].lon + "".split(',').map(Number)));
+                var view = map.getView();
+                view.setCenter(ol.proj.fromLonLat(txt.split(',').map(Number)));
+                view.setZoom(12);
+            });
+        }
+
         var raster = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
@@ -197,6 +193,10 @@
             view: new ol.View({
                 center: [8.401285, 48.999550],
                 zoom: 12
+            }),
+            controls: ol.control.defaults({
+                attribution: false,
+                zoom: false,
             })
         });
 
@@ -208,7 +208,10 @@
         });
 
         var draw; // global so we can remove it later
-
+        
+        setTimeout(function(){
+            $('#infoalert').remove();
+        }, 10000);
 
         /**
          * Format length output.
@@ -280,6 +283,8 @@
             var modifyListener;
             draw.on('drawstart',
                 function (evt) {
+                    $('#infoalert').remove();
+
                     // set sketch
                     sketch = evt.feature;
 
