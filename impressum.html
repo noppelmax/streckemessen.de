@@ -12,6 +12,8 @@
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.6.5/build/ol-debug.js"></script>
     <script src="vendor/bootstrap-4.1.1-dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/script.js"></script>
 
 
 </head>
@@ -22,12 +24,17 @@
     </div>
 
     <div id="footer">
-        MIT Licence 2018, Maximilian Noppel |
+        MIT Licence 2018, Maximilian Noppel | Version
+        <span id="version">loading</span> |
         <a href="impressum.html">Impressum</a> | Kartendaten: ©
         <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
         <a href="https://opentopomap.org/">OpenTopoMap</a> (
         <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)
     </div>
+
+    <script>
+        loadVersion();
+    </script>
 
 </body>
 

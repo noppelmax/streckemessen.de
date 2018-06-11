@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Laufstrecke.one</title>
+    <title>streckemessen.de</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
     <link rel="stylesheet" href="vendor/bootstrap-4.1.1-dist/css/bootstrap.min.css" type="text/css">
@@ -13,6 +13,7 @@
     <script src="https://openlayers.org/en/v4.6.5/build/ol-debug.js"></script>
     <script src="vendor/bootstrap-4.1.1-dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/script.js"></script>
 
 
 </head>
@@ -32,10 +33,10 @@
         </p>
         <h1>streckemessen.de</h1>
         <p>
-            <button class="location btn btn-secondary" data-center="13.406485,52.518444" data-zoom="12">Berlin</button>
-            <button class="location btn btn-secondary" data-center="10.004692,53.540295" data-zoom="12">Hamburg</button>
-            <button class="location btn btn-secondary" data-center="11.554186,48.143373" data-zoom="12">München</button>
-            <button class="location btn btn-secondary" data-center="8.401285,48.999550" data-zoom="12">Karlsruhe</button>
+            <button class="location btn btn-secondary" data-name="Berlin" data-center="13.406485,52.518444" data-zoom="12">Berlin</button>
+            <button class="location btn btn-secondary" data-name="Hamburg"data-center="10.004692,53.540295" data-zoom="12">Hamburg</button>
+            <button class="location btn btn-secondary" data-name="München"data-center="11.554186,48.143373" data-zoom="12">München</button>
+            <button class="location btn btn-secondary" data-name="Karlsruhe"data-center="8.401285,48.999550" data-zoom="12">Karlsruhe</button>
             <!--form id="searchForm" style="display: inline;"-->
             <input type="text" id="searchText" onenter="search()" aria-describedby="searchtext" placeholder="Berlin"></input>
             <button type="button" class="btn btn-primary" onclick="search()">Search</button>
@@ -44,7 +45,8 @@
     </div>
     <div id="map" class="map"></div>
     <div id="footer">
-        MIT Licence 2018, Maximilian Noppel |
+        MIT Licence 2018, Maximilian Noppel | Version
+        <span id="version">loading</span> |
         <a href="impressum.html">Impressum</a> | Kartendaten: ©
         <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
         <a href="https://opentopomap.org/">OpenTopoMap</a> (
@@ -59,6 +61,10 @@
 
         function search() {
             searchText = document.getElementById("searchText").value;
+            search(searchText);
+        }
+
+        function search(searchText) {
             console.log("searching for: ", searchText);
 
             $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&limit=1", function (json) {
@@ -208,8 +214,8 @@
         });
 
         var draw; // global so we can remove it later
-        
-        setTimeout(function(){
+
+        setTimeout(function () {
             $('#infoalert').remove();
         }, 10000);
 
@@ -318,6 +324,7 @@
 
 
 
+
         /**
          * Creates a new help tooltip
          */
@@ -362,16 +369,15 @@
 
         function relocate(event) {
             var data = event.target.dataset;
-            var view = map.getView();
-            view.setCenter(ol.proj.fromLonLat(data.center.split(',').map(Number)));
-            view.setZoom(Number(data.zoom));
+            search(data.name);
         }
 
         /* Go to default view */
-        map.getView().setCenter(ol.proj.fromLonLat("8.401285,48.999550".split(',').map(Number)));
+        search("Karlsruhe");
         map.getView().setZoom(Number(13));
 
         addInteraction();
+        loadVersion();
 
 
     </script>
