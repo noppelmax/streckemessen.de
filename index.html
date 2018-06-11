@@ -67,7 +67,7 @@
         function search(searchText) {
             console.log("searching for: ", searchText);
 
-            $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&limit=1", function (json) {
+            $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&countrycodes=de,ch,fr", function (json) {
                 var txt = "" + json[0].lon + "," + json[0].lat + "";
                 console.log(txt);
                 map.getView().setCenter(ol.proj.fromLonLat("" + json[0].lat + "," + json[0].lon + "".split(',').map(Number)));

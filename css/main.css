@@ -67,3 +67,8 @@ form {
     right: 0;
     z-index: 10;
 }
+
+#impressum {
+    width: 100%;
+    text-align: center;
+}
