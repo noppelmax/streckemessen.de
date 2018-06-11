@@ -61,10 +61,10 @@
 
         function search() {
             searchText = document.getElementById("searchText").value;
-            search(searchText);
+            searchForText(searchText);
         }
 
-        function search(searchText) {
+        function searchForText(searchText) {
             console.log("searching for: ", searchText);
 
             $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&countrycodes=de,ch,fr", function (json) {
@@ -373,7 +373,7 @@
         }
 
         /* Go to default view */
-        search("Karlsruhe");
+        searchForText("Karlsruhe");
         map.getView().setZoom(Number(13));
 
         addInteraction();
