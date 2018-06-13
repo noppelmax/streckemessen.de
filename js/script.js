@@ -2,7 +2,7 @@
 /**
  * Function to load the current version from json file
  */
-function loadVersion(){
+function loadVersion() {
     $.ajax({
         datatype: "json",
         url: 'version.json',
@@ -18,4 +18,15 @@ function loadVersion(){
             $('#version').text(version);
         }
     });
+}
+
+function goToLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var txt = "" + position.coords.longitude + "," + position.coords.latitude + "";
+            var view = map.getView();
+            view.setCenter(ol.proj.fromLonLat(txt.split(',').map(Number)));
+            view.setZoom(12);
+        });
+    }
 }

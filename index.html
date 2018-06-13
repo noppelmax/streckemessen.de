@@ -71,7 +71,7 @@
             $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&countrycodes=de,ch,fr", function (json) {
                 var txt = "" + json[0].lon + "," + json[0].lat + "";
                 console.log(txt);
-                map.getView().setCenter(ol.proj.fromLonLat("" + json[0].lat + "," + json[0].lon + "".split(',').map(Number)));
+                
                 var view = map.getView();
                 view.setCenter(ol.proj.fromLonLat(txt.split(',').map(Number)));
                 view.setZoom(12);
@@ -376,6 +376,8 @@
         /* Go to default view */
         searchForText("Karlsruhe");
         map.getView().setZoom(Number(13));
+
+        goToLocation();
 
         addInteraction();
         loadVersion();
