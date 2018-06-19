@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /css/
+Disallow: /js/
+Disallow: /pics/
+Disallow: /vendor/
+Disallow: README.md
+Disallow: LICENCE.md
+Disallow: version.json
+Disallow: issues.html
+Disallow: impressum.html

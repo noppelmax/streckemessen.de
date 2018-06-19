@@ -26,31 +26,36 @@
             <input type="checkbox">Roundtrip (not implemented yet)</input>
         </p-->
         <p>
-            <div id="infoalert" class="alert alert-info" role="alert">
-                Beende deinen Track und selektiere ihn um in den Bearbeitenmodus überzugehen.
+            <div class="alertbox">
+                <div class="infoalert alert alert-info" role="alert">
+                    Beende deinen Track und selektiere ihn um in den Bearbeitenmodus überzugehen.
+                </div>
+                <div class="infoalert alert alert-info" role="alert">
+                    Drück ESC um den letzten Punkt zu löschen.
+                </div>
             </div>
 
         </p>
         <h1>streckemessen.de</h1>
         <p>
             <button class="location btn btn-secondary" data-name="Berlin" data-center="13.406485,52.518444" data-zoom="12">Berlin</button>
-            <button class="location btn btn-secondary" data-name="Hamburg"data-center="10.004692,53.540295" data-zoom="12">Hamburg</button>
-            <button class="location btn btn-secondary" data-name="München"data-center="11.554186,48.143373" data-zoom="12">München</button>
-            <button class="location btn btn-secondary" data-name="Karlsruhe"data-center="8.401285,48.999550" data-zoom="12">Karlsruhe</button>
+            <button class="location btn btn-secondary" data-name="Hamburg" data-center="10.004692,53.540295" data-zoom="12">Hamburg</button>
+            <button class="location btn btn-secondary" data-name="München" data-center="11.554186,48.143373" data-zoom="12">München</button>
+            <button class="location btn btn-secondary" data-name="Karlsruhe" data-center="8.401285,48.999550" data-zoom="12">Karlsruhe</button>
             <!--form id="searchForm" style="display: inline;"-->
             <input type="text" id="searchText" onenter="search()" aria-describedby="searchtext" placeholder="Berlin"></input>
             <button type="button" class="btn btn-primary" onclick="search()">Search</button>
+            <button class="btn btn-secondary" onclick="window.location.href='help.html'">?</button>
             <!--/form-->
         </p>
     </div>
     <div id="map" class="map"></div>
     <div id="footer">
         MIT Licence 2018, Maximilian Noppel | Version
-        <span id="version">loading</span> | 
-        <a href="issues.html">issues</a> |
+        <span id="version">loading</span> |
+        <a href="issues.html">Issues</a> |
         <a href="impressum.html">Impressum</a> | Kartendaten: ©
-        <a href="https://www.openstreetmap.org/">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: ©
-        <a href="https://opentopomap.org/">OpenTopoMap</a> (
+        <a href="https://www.openstreetmap.org/">OpenStreetMap</a> (
         <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)
     </div>
     <script>
@@ -71,7 +76,7 @@
             $.getJSON("https://nominatim.openstreetmap.org/search?q=" + searchText + "&format=json&countrycodes=de,ch,fr", function (json) {
                 var txt = "" + json[0].lon + "," + json[0].lat + "";
                 console.log(txt);
-                map.getView().setCenter(ol.proj.fromLonLat("" + json[0].lat + "," + json[0].lon + "".split(',').map(Number)));
+
                 var view = map.getView();
                 view.setCenter(ol.proj.fromLonLat(txt.split(',').map(Number)));
                 view.setZoom(12);
@@ -83,6 +88,9 @@
         });
 
         var source = new ol.source.Vector();
+
+
+
 
         var styleFinished = [
             new ol.style.Style({
@@ -217,7 +225,7 @@
         var draw; // global so we can remove it later
 
         setTimeout(function () {
-            $('#infoalert').remove();
+            $('.infoalert').remove();
         }, 10000);
 
         /**
@@ -274,6 +282,8 @@
             })
         ];
 
+        var draw;
+
         function addInteraction() {
             var type = 'LineString';
             draw = new ol.interaction.Draw({
@@ -290,7 +300,7 @@
             var modifyListener;
             draw.on('drawstart',
                 function (evt) {
-                    $('#infoalert').remove();
+                    $('.infoalert').remove();
 
                     // set sketch
                     sketch = evt.feature;
@@ -321,6 +331,11 @@
                     //select.getFeatures().push(evt.features);
                 }, this);
         }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.which == 27)
+                draw.removeLastPoint()
+        });
 
 
 
@@ -366,8 +381,6 @@
             locations[i].addEventListener('click', relocate);
         }
 
-
-
         function relocate(event) {
             var data = event.target.dataset;
             searchForText(data.name);
@@ -376,6 +389,8 @@
         /* Go to default view */
         searchForText("Karlsruhe");
         map.getView().setZoom(Number(13));
+
+        goToLocation();
 
         addInteraction();
         loadVersion();
