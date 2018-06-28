@@ -8,3 +8,4 @@ Disallow: LICENCE.md
 Disallow: version.json
 Disallow: issues.html
 Disallow: impressum.html
+Disallow: help.html
