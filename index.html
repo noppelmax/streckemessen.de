@@ -33,7 +33,7 @@
                     Beende deinen Track und selektiere ihn um in den Bearbeitenmodus überzugehen.
                 </div>
                 <div class="infoalert alert alert-info" role="alert">
-                    Drück ESC um den letzten Punkt zu löschen.
+                    Drück Backspace um den letzten Punkt zu löschen.
                 </div>
             </div>
 
@@ -335,7 +335,7 @@
         }
 
         document.addEventListener('keydown', function (e) {
-            if (e.which == 27)
+            if (e.which == 8)
                 draw.removeLastPoint()
         });
 
