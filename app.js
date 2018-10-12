@@ -273,7 +273,7 @@ function addInteraction() {
 }
 
 document.addEventListener('keydown', function (e) {
-	if (e.which == 8)
+	if (e.which == 8 || e.which == 27 || e.which == 85)
 		draw.removeLastPoint()
 });
 
@@ -334,5 +334,3 @@ for (var i = 0, ii = locations.length; i < ii; ++i) {
 
 			addInteraction();
 			loadVersion();
-
-			
