@@ -74,16 +74,13 @@ form {
     text-align: left;
 }
 
-#impressum {
-    width: 100%;
-    text-align: center;
-}
-
-#impressum, #issues {
+#impressum, #issues, #datenschutzerklaerung {
     width: 80%;
     text-align: left;
     margin: auto;
 }
+
+
 
 .todo {
     color:blue;
@@ -97,4 +94,3 @@ form {
 .feature {
     color: green;
 }
-
