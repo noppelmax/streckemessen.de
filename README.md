@@ -10,4 +10,4 @@ Create new branch 'vx.y.z'. Do fixes in this branch. Pump version in 'dev' branc
 
 ## Licence
 
-See (Licence)[Licence.md]
+See [Licence](Licence.md)
