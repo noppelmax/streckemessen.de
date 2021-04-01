@@ -1,10 +1,4 @@
 
-//$('#searchForm').on("submit", function (e) {
-//    console.log("Submitted");
-//    e.preventDefault();
-//    search();
-//});
-
 function search() {
 	searchText = document.getElementById("searchText").value;
 	searchForText(searchText);
@@ -28,9 +22,6 @@ var raster = new ol.layer.Tile({
 });
 
 var source = new ol.source.Vector();
-
-
-
 
 var styleFinished = [
 	new ol.style.Style({
@@ -276,10 +267,6 @@ document.addEventListener('keydown', function (e) {
 	if (e.which == 8 || e.which == 27 || e.which == 85)
 		draw.removeLastPoint()
 });
-
-
-
-
 
 /**
  * Creates a new help tooltip
