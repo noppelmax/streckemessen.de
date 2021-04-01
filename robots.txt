@@ -6,6 +6,7 @@ Disallow: /vendor/
 Disallow: README.md
 Disallow: LICENCE.md
 Disallow: version.json
-Disallow: issues.html
-Disallow: impressum.html
-Disallow: help.html
+Disallow: html/mainpages/issues.html
+Disallow: html/mainpages/impressum.html
+Disallow: html/mainpages/help.html
+Disallow: html/includes
