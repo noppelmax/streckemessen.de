@@ -8,6 +8,6 @@ Add Features and Bugfixes without pumping Version.
 
 Create new branch 'vx.y.z'. Do fixes in this branch. Pump version in 'dev' branch to next number. If 'vx.y.z' is ready merge to 'master'.
 
-## Licence
+## License
 
-See [Licence](LICENCE.txt)
+See [License](LICENSE.txt)
