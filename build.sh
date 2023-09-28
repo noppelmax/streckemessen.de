@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-cog -r html/mainpages/*.html
+cog -r *.html
